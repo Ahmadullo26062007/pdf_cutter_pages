@@ -1,0 +1,51 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# --- Virtual environments ---
+venv/
+pdf-env/
+env/
+.venv/
+ENV/
+
+# --- Flask ---
+instance/
+.webassets-cache
+*.log
+
+# --- Loyiha ma'lumotlari (ishlash paytida yaratiladi) ---
+uploads/*
+!uploads/.gitkeep
+outputs/*
+!outputs/.gitkeep
+*.pdf
+*.zip
+
+# --- Testing / linting ---
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Muhit o'zgaruvchilari ---
+.env
+.env.local
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- OS ---
+.DS_Store
+Thumbs.db

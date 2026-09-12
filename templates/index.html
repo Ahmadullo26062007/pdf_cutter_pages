@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        PDF Telefon Optimizer
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
+
+            padding: 30px 15px;
+
+        }
+
+
+        .container {
+
+            max-width: 850px;
+
+            margin: auto;
+
+        }
+
+
+        .card {
+
+            background: white;
+
+            border-radius: 24px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    .12
+                );
+
+        }
+
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .icon {
+
+            font-size: 55px;
+
+        }
+
+
+        h1 {
+
+            margin: 8px 0;
+
+            font-size: 28px;
+
+            color: #111827;
+
+        }
+
+
+        .subtitle {
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+        }
+
+
+        .upload {
+
+            border: 2px dashed #cbd5e1;
+
+            border-radius: 18px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+        }
+
+
+        .upload:hover {
+
+            border-color: #6366f1;
+
+            background: #f8fafc;
+
+        }
+
+
+        .upload-icon {
+
+            font-size: 45px;
+
+        }
+
+
+        .upload-title {
+
+            margin-top: 10px;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+        }
+
+
+        .upload-info {
+
+            margin-top: 5px;
+
+            color: #9ca3af;
+
+            font-size: 13px;
+
+        }
+
+
+        #fileInput {
+
+            display: none;
+
+        }
+
+
+        .file-list {
+
+            margin-top: 20px;
+
+            display: none;
+
+        }
+
+
+        .file-list-title {
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+
+            color: #374151;
+
+        }
+
+
+        .file-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .file-icon {
+
+            font-size: 25px;
+
+        }
+
+
+        .file-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .file-name {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
+
+
+        .file-size {
+
+            font-size: 12px;
+
+            color: #9ca3af;
+
+            margin-top: 3px;
+
+        }
+
+
+        .remove-file {
+
+            border: none;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+
+        .settings {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+
+            margin-top: 25px;
+
+        }
+
+
+        .field label {
+
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .field input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+
+        .field input:focus {
+
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    99,
+                    102,
+                    241,
+                    .12
+                );
+
+        }
+
+
+        .hint {
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+
+        }
+
+
+        .start-button {
+
+            margin-top: 25px;
+
+            width: 100%;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+        }
+
+
+        .start-button:hover {
+
+            background: #4338ca;
+
+        }
+
+
+        .start-button:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .batch {
+
+            display: none;
+
+            margin-top: 30px;
+
+        }
+
+
+        .overall {
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background: #f8fafc;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .overall-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 10px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+        }
+
+
+        .progress {
+
+            height: 12px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-bar {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #4f46e5;
+
+            transition: width .3s;
+
+        }
+
+
+        .jobs {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+
+        .job {
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            padding: 15px;
+
+        }
+
+
+        .job-top {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .job-name {
+
+            flex: 1;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
+
+
+        .job-status {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .waiting {
+
+            color: #9ca3af;
+
+        }
+
+
+        .processing {
+
+            color: #4f46e5;
+
+        }
+
+
+        .done {
+
+            color: #059669;
+
+        }
+
+
+        .error-status {
+
+            color: #dc2626;
+
+        }
+
+
+        .job-progress {
+
+            margin-top: 10px;
+
+            height: 7px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+        .job-progress-bar {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #6366f1;
+
+            transition: width .3s;
+
+        }
+
+
+        .job-info {
+
+            margin-top: 6px;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+        }
+
+
+        .success {
+
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background: #ecfdf5;
+
+            border: 1px solid #a7f3d0;
+
+        }
+
+
+        .success-title {
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            color: #065f46;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .download {
+
+            display: block;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            padding: 14px;
+
+            border-radius: 11px;
+
+            background: #059669;
+
+            color: white;
+
+            font-weight: 800;
+
+        }
+
+
+        .download:hover {
+
+            background: #047857;
+
+        }
+
+
+        .error-box {
+
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .card {
+
+                padding: 20px;
+
+            }
+
+            .settings {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            h1 {
+
+                font-size: 23px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <div class="card">
+
+
+        <div class="header">
+
+            <div class="icon">
+                📱
+            </div>
+
+            <h1>
+                PDF Telefon Optimizer
+            </h1>
+
+            <div class="subtitle">
+                Bir nechta PDFni birdan optimallashtiring
+            </div>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <label
+            class="upload"
+            for="fileInput"
+        >
+
+            <div class="upload-icon">
+                📚
+            </div>
+
+            <div class="upload-title">
+                Bir nechta PDF tanlang
+            </div>
+
+            <div class="upload-info">
+                Bir vaqtning o'zida bir nechta fayl tanlash mumkin
+            </div>
+
+        </label>
+
+
+        <input
+            id="fileInput"
+            type="file"
+            accept=".pdf,application/pdf"
+            multiple
+        >
+
+
+        <!-- FILE LIST -->
+
+        <div
+            class="file-list"
+            id="fileList"
+        >
+
+            <div class="file-list-title">
+
+                Tanlangan fayllar:
+
+                <span id="fileCount">
+                    0
+                </span>
+
+            </div>
+
+            <div id="files"></div>
+
+        </div>
+
+
+        <!-- SETTINGS -->
+
+        <div class="settings">
+
+            <div class="field">
+
+                <label>
+                    Kesish balandligi
+                </label>
+
+                <input
+                    id="chunkHeight"
+                    type="number"
+                    value="1400"
+                    min="500"
+                    max="5000"
+                >
+
+                <div class="hint">
+                    Redmi 9A uchun: 1200–1400 px
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    JPEG sifati
+                </label>
+
+                <input
+                    id="quality"
+                    type="number"
+                    value="80"
+                    min="40"
+                    max="95"
+                >
+
+                <div class="hint">
+                    Tavsiya: 75–85%
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- START -->
+
+        <button
+            class="start-button"
+            id="startButton"
+            onclick="startOptimization()"
+        >
+            🚀 HAMMASINI OPTIMALLASHTIRISH
+        </button>
+
+
+        <!-- BATCH -->
+
+        <div
+            class="batch"
+            id="batch"
+        >
+
+            <div class="overall">
+
+                <div class="overall-top">
+
+                    <span>
+                        Umumiy progress
+                    </span>
+
+                    <span
+                        id="overallPercent"
+                    >
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        id="overallBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="jobs"
+                id="jobs"
+            ></div>
+
+        </div>
+
+
+        <!-- SUCCESS -->
+
+        <div
+            class="success"
+            id="success"
+        >
+
+            <div class="success-title">
+
+                ✅ Barcha PDFlar tayyor!
+
+            </div>
+
+
+            <a
+                class="download"
+                id="downloadButton"
+                href="#"
+            >
+
+                📦 HAMMASINI ZIP QILIB YUKLAB OLISH
+
+            </a>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            class="error-box"
+            id="errorBox"
+        ></div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+let selectedFiles = [];
+
+
+const fileInput =
+    document.getElementById(
+        "fileInput"
+    );
+
+
+const fileList =
+    document.getElementById(
+        "fileList"
+    );
+
+
+const filesContainer =
+    document.getElementById(
+        "files"
+    );
+
+
+const fileCount =
+    document.getElementById(
+        "fileCount"
+    );
+
+
+const startButton =
+    document.getElementById(
+        "startButton"
+    );
+
+
+const batch =
+    document.getElementById(
+        "batch"
+    );
+
+
+const jobsContainer =
+    document.getElementById(
+        "jobs"
+    );
+
+
+const success =
+    document.getElementById(
+        "success"
+    );
+
+
+const errorBox =
+    document.getElementById(
+        "errorBox"
+    );
+
+
+const overallBar =
+    document.getElementById(
+        "overallBar"
+    );
+
+
+const overallPercent =
+    document.getElementById(
+        "overallPercent"
+    );
+
+
+/*
+    PDF tanlash
+*/
+
+fileInput.addEventListener(
+    "change",
+    function () {
+
+        const newFiles =
+            Array.from(
+                this.files
+            );
+
+        for (
+            const file of newFiles
+        ) {
+
+            const exists =
+                selectedFiles.some(
+                    existing =>
+                        existing.name ===
+                            file.name &&
+                        existing.size ===
+                            file.size
+                );
+
+            if (!exists) {
+
+                selectedFiles.push(
+                    file
+                );
+
+            }
+
+        }
+
+        renderFiles();
+
+        // Inputni tozalash,
+        // yana PDF qo'shish mumkin
+        this.value = "";
+
+    }
+);
+
+
+/*
+    Fayllarni ko'rsatish
+*/
+
+function renderFiles() {
+
+    filesContainer.innerHTML =
+        "";
+
+    fileCount.textContent =
+        selectedFiles.length;
+
+
+    if (
+        selectedFiles.length === 0
+    ) {
+
+        fileList.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    fileList.style.display =
+        "block";
+
+
+    selectedFiles.forEach(
+        (file, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "file-item";
+
+
+            const size =
+                formatSize(
+                    file.size
+                );
+
+
+            item.innerHTML = `
+
+                <div class="file-icon">
+                    📄
+                </div>
+
+                <div class="file-info">
+
+                    <div class="file-name">
+                        ${escapeHtml(file.name)}
+                    </div>
+
+                    <div class="file-size">
+                        ${size}
+                    </div>
+
+                </div>
+
+                <button
+                    class="remove-file"
+                    onclick="removeFile(${index})"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            filesContainer.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/*
+    Fayl o'chirish
+*/
+
+function removeFile(index) {
+
+    selectedFiles.splice(
+        index,
+        1
+    );
+
+    renderFiles();
+
+}
+
+
+/*
+    Hajm
+*/
+
+function formatSize(bytes) {
+
+    if (
+        bytes <
+        1024 * 1024
+    ) {
+
+        return (
+            (bytes / 1024)
+            .toFixed(1)
+            + " KB"
+        );
+
+    }
+
+
+    return (
+        (bytes / 1024 / 1024)
+        .toFixed(1)
+        + " MB"
+    );
+
+}
+
+
+/*
+    XSSdan himoya
+*/
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/*
+    Error
+*/
+
+function showError(message) {
+
+    errorBox.textContent =
+        "❌ " + message;
+
+    errorBox.style.display =
+        "block";
+
+}
+
+
+/*
+    Start
+*/
+
+async function startOptimization() {
+
+    errorBox.style.display =
+        "none";
+
+    success.style.display =
+        "none";
+
+
+    if (
+        selectedFiles.length === 0
+    ) {
+
+        showError(
+            "Avval kamida bitta PDF tanlang."
+        );
+
+        return;
+
+    }
+
+
+    const chunkHeight =
+        document
+            .getElementById(
+                "chunkHeight"
+            )
+            .value;
+
+
+    const quality =
+        document
+            .getElementById(
+                "quality"
+            )
+            .value;
+
+
+    const formData =
+        new FormData();
+
+
+    selectedFiles.forEach(
+        file => {
+
+            formData.append(
+                "pdfs",
+                file
+            );
+
+        }
+    );
+
+
+    formData.append(
+        "chunk_h",
+        chunkHeight
+    );
+
+
+    formData.append(
+        "quality",
+        quality
+    );
+
+
+    startButton.disabled =
+        true;
+
+    startButton.textContent =
+        "⏳ ISHLANMOQDA...";
+
+
+    batch.style.display =
+        "block";
+
+
+    jobsContainer.innerHTML =
+        "";
+
+
+    selectedFiles.forEach(
+        (file, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "job";
+
+            item.id =
+                "job-" + index;
+
+
+            item.innerHTML = `
+
+                <div class="job-top">
+
+                    <span>
+                        📄
+                    </span>
+
+                    <span class="job-name">
+                        ${escapeHtml(file.name)}
+                    </span>
+
+                    <span
+                        class="job-status waiting"
+                        id="status-${index}"
+                    >
+                        Kutmoqda
+                    </span>
+
+                </div>
+
+
+                <div class="job-progress">
+
+                    <div
+                        class="job-progress-bar"
+                        id="bar-${index}"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="job-info"
+                    id="info-${index}"
+                >
+                    Navbatda...
+                </div>
+
+            `;
+
+
+            jobsContainer.appendChild(
+                item
+            );
+
+        }
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/optimize",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Xatolik yuz berdi."
+            );
+
+        }
+
+
+        pollProgress(
+            data.batch_id
+        );
+
+
+    } catch (error) {
+
+        showError(
+            error.message
+        );
+
+        resetButton();
+
+    }
+
+}
+
+
+/*
+    Progress tekshirish
+*/
+
+function pollProgress(
+    batchId
+) {
+
+    const interval =
+        setInterval(
+            async () => {
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/progress/" +
+                            batchId
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    updateUI(
+                        data
+                    );
+
+
+                    if (
+                        data.status ===
+                            "done" ||
+                        data.status ===
+                            "error"
+                    ) {
+
+                        clearInterval(
+                            interval
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+                    clearInterval(
+                        interval
+                    );
+
+                    showError(
+                        error.message
+                    );
+
+                    resetButton();
+
+                }
+
+            },
+            700
+        );
+
+}
+
+
+/*
+    UI yangilash
+*/
+
+function updateUI(data) {
+
+    const overall =
+        data.overall_progress ||
+        0;
+
+
+    overallBar.style.width =
+        overall + "%";
+
+
+    overallPercent.textContent =
+        overall + "%";
+
+
+    const fileEntries =
+        Object.values(
+            data.files || {}
+        );
+
+
+    fileEntries.forEach(
+        (item, index) => {
+
+            const status =
+                document.getElementById(
+                    "status-" + index
+                );
+
+            const bar =
+                document.getElementById(
+                    "bar-" + index
+                );
+
+            const info =
+                document.getElementById(
+                    "info-" + index
+                );
+
+
+            if (!status)
+                return;
+
+
+            bar.style.width =
+                (
+                    item.progress || 0
+                ) + "%";
+
+
+            if (
+                item.status ===
+                "waiting"
+            ) {
+
+                status.textContent =
+                    "Kutmoqda";
+
+                status.className =
+                    "job-status waiting";
+
+                info.textContent =
+                    "Navbatda...";
+
+            }
+
+
+            if (
+                item.status ===
+                "processing"
+            ) {
+
+                status.textContent =
+                    "Ishlanmoqda";
+
+                status.className =
+                    "job-status processing";
+
+                info.textContent =
+                    item.current_page +
+                    " / " +
+                    item.total_pages +
+                    " sahifa";
+
+            }
+
+
+            if (
+                item.status ===
+                "done"
+            ) {
+
+                status.textContent =
+                    "✓ Tayyor";
+
+                status.className =
+                    "job-status done";
+
+                info.textContent =
+                    "Optimallashtirish tugadi";
+
+            }
+
+
+            if (
+                item.status ===
+                "error"
+            ) {
+
+                status.textContent =
+                    "Xato";
+
+                status.className =
+                    "job-status error-status";
+
+                info.textContent =
+                    item.error ||
+                    "Noma'lum xato";
+
+            }
+
+        }
+    );
+
+
+    if (
+        data.status ===
+        "done"
+    ) {
+
+        success.style.display =
+            "block";
+
+
+        document
+            .getElementById(
+                "downloadButton"
+            )
+            .href =
+                "/download/" +
+                getBatchIdFromUrlOrCurrent(
+                    data
+                );
+
+
+        // Batch IDni pollingdan olish
+        // uchun tugmaga keyin to'g'rilaymiz
+        if (window.currentBatchId) {
+
+            document
+                .getElementById(
+                    "downloadButton"
+                )
+                .href =
+                    "/download/" +
+                    window.currentBatchId;
+
+        }
+
+
+        resetButton();
+
+    }
+
+
+    if (
+        data.status ===
+        "error"
+    ) {
+
+        showError(
+            data.error ||
+            "Batchni qayta ishlashda xatolik."
+        );
+
+        resetButton();
+
+    }
+
+}
+
+
+/*
+    Batch ID
+*/
+
+function getBatchIdFromUrlOrCurrent(
+    data
+) {
+
+    return window.currentBatchId || "";
+
+}
+
+
+/*
+    pollProgressni batch ID bilan
+    global saqlash
+*/
+
+const originalPollProgress =
+    pollProgress;
+
+
+/*
+    Funksiyani qayta belgilaymiz
+*/
+
+pollProgress = function(
+    batchId
+) {
+
+    window.currentBatchId =
+        batchId;
+
+
+    originalPollProgress(
+        batchId
+    );
+
+};
+
+
+/*
+    Button reset
+*/
+
+function resetButton() {
+
+    startButton.disabled =
+        false;
+
+    startButton.textContent =
+        "🚀 HAMMASINI OPTIMALLASHTIRISH";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
