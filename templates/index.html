@@ -4,805 +4,569 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>PDF Telefon Optimizer</title>
 
-    <title>
-        PDF Telefon Optimizer
-    </title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
 
-        * {
-            box-sizing: border-box;
+        :root {
+            --bg: #f4f6fb;
+            --card: #ffffff;
+            --surface: #f8fafc;
+            --border: #e5e7eb;
+            --text: #0f172a;
+            --muted: #64748b;
+            --faint: #94a3b8;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-soft: #eef2ff;
+            --success: #059669;
+            --success-hover: #047857;
+            --success-soft: #ecfdf5;
+            --danger: #dc2626;
+            --danger-soft: #fef2f2;
+            --shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 12px 40px rgba(15, 23, 42, .08);
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b1020;
+                --card: #121a2e;
+                --surface: #182238;
+                --border: #26314a;
+                --text: #e2e8f0;
+                --muted: #94a3b8;
+                --faint: #64748b;
+                --primary: #6366f1;
+                --primary-hover: #818cf8;
+                --primary-soft: rgba(99, 102, 241, .14);
+                --success: #10b981;
+                --success-hover: #34d399;
+                --success-soft: rgba(16, 185, 129, .12);
+                --danger: #f87171;
+                --danger-soft: rgba(248, 113, 113, .12);
+                --shadow: 0 12px 40px rgba(0, 0, 0, .35);
+            }
+        }
+
+        * { box-sizing: border-box; }
 
         body {
-
             margin: 0;
-
             min-height: 100vh;
-
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+            color: var(--text);
             background:
-                linear-gradient(
-                    135deg,
-                    #eef2ff,
-                    #f8fafc
-                );
-
-            padding: 30px 15px;
-
+                radial-gradient(1200px 500px at 50% -200px, var(--primary-soft), transparent),
+                var(--bg);
+            padding: 48px 16px;
+            -webkit-font-smoothing: antialiased;
         }
-
 
         .container {
-
-            max-width: 850px;
-
-            margin: auto;
-
+            max-width: 640px;
+            margin: 0 auto;
         }
 
-
-        .card {
-
-            background: white;
-
-            border-radius: 24px;
-
-            padding: 30px;
-
-            box-shadow:
-                0 20px 60px
-                rgba(
-                    15,
-                    23,
-                    42,
-                    .12
-                );
-
-        }
-
+        /* ---------- HEADER ---------- */
 
         .header {
-
             text-align: center;
-
-            margin-bottom: 30px;
-
+            margin-bottom: 28px;
         }
 
-
-        .icon {
-
-            font-size: 55px;
-
+        .logo {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(99, 102, 241, .35);
         }
-
 
         h1 {
-
-            margin: 8px 0;
-
+            margin: 0 0 6px;
             font-size: 28px;
-
-            color: #111827;
-
+            font-weight: 800;
+            letter-spacing: -.02em;
         }
-
 
         .subtitle {
-
-            color: #6b7280;
-
-            font-size: 14px;
-
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
         }
 
+        /* ---------- CARD ---------- */
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .section + .section {
+            margin-top: 24px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--muted);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ---------- UPLOAD ---------- */
 
         .upload {
-
-            border: 2px dashed #cbd5e1;
-
-            border-radius: 18px;
-
-            padding: 35px;
-
+            display: block;
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 36px 20px;
             text-align: center;
-
             cursor: pointer;
-
-            transition: .2s;
-
+            background: var(--surface);
+            transition: border-color .2s, background .2s, transform .2s;
         }
 
-
-        .upload:hover {
-
-            border-color: #6366f1;
-
-            background: #f8fafc;
-
+        .upload:hover,
+        .upload.dragover {
+            border-color: var(--primary);
+            background: var(--primary-soft);
         }
 
+        .upload.dragover {
+            transform: scale(1.01);
+        }
 
         .upload-icon {
-
-            font-size: 45px;
-
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--primary-soft);
+            color: var(--primary);
         }
-
 
         .upload-title {
-
-            margin-top: 10px;
-
-            font-size: 17px;
-
+            font-size: 16px;
             font-weight: 700;
-
-            color: #374151;
-
         }
 
+        .upload-title span {
+            color: var(--primary);
+        }
 
         .upload-info {
-
-            margin-top: 5px;
-
-            color: #9ca3af;
-
+            margin-top: 4px;
+            color: var(--faint);
             font-size: 13px;
-
         }
 
+        #fileInput { display: none; }
 
-        #fileInput {
+        /* ---------- FILE LIST ---------- */
 
-            display: none;
+        .file-list { display: none; margin-top: 16px; }
 
+        .clear-all {
+            border: none;
+            background: none;
+            color: var(--muted);
+            font: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: 0;
+            cursor: pointer;
+            padding: 0;
         }
 
+        .clear-all:hover { color: var(--danger); }
 
-        .file-list {
-
-            margin-top: 20px;
-
-            display: none;
-
-        }
-
-
-        .file-list-title {
-
-            font-weight: 700;
-
-            margin-bottom: 10px;
-
-            color: #374151;
-
-        }
-
-
-        .file-item {
-
+        .file-item,
+        .job {
             display: flex;
-
             align-items: center;
-
             gap: 12px;
-
-            padding: 13px;
-
-            background: #f8fafc;
-
+            padding: 12px;
+            border: 1px solid var(--border);
             border-radius: 12px;
-
-            margin-bottom: 8px;
-
+            background: var(--card);
         }
 
-
-        .file-icon {
-
-            font-size: 25px;
-
+        .file-item + .file-item,
+        .job + .job {
+            margin-top: 8px;
         }
 
+        .file-badge {
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--danger);
+            background: var(--danger-soft);
+        }
 
         .file-info {
-
             flex: 1;
-
             min-width: 0;
-
         }
-
 
         .file-name {
-
             font-size: 14px;
-
             font-weight: 600;
-
             overflow: hidden;
-
             text-overflow: ellipsis;
-
             white-space: nowrap;
-
         }
 
-
-        .file-size {
-
+        .file-meta {
             font-size: 12px;
-
-            color: #9ca3af;
-
-            margin-top: 3px;
-
+            color: var(--faint);
+            margin-top: 2px;
         }
 
-
-        .remove-file {
-
+        .icon-button {
+            flex-shrink: 0;
             border: none;
-
-            background: #fee2e2;
-
-            color: #dc2626;
-
+            background: transparent;
+            color: var(--faint);
             width: 32px;
-
             height: 32px;
-
             border-radius: 8px;
-
             cursor: pointer;
-
-            font-size: 16px;
-
+            display: grid;
+            place-items: center;
+            transition: .15s;
         }
 
+        .icon-button:hover {
+            background: var(--danger-soft);
+            color: var(--danger);
+        }
+
+        /* ---------- SETTINGS ---------- */
 
         .settings {
-
             display: grid;
-
             grid-template-columns: 1fr 1fr;
-
-            gap: 15px;
-
-            margin-top: 25px;
-
+            gap: 16px;
         }
 
+        .field {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+
+        .field-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
 
         .field label {
-
-            display: block;
-
             font-size: 14px;
+            font-weight: 600;
+        }
 
+        .field-value {
+            font-size: 14px;
             font-weight: 700;
-
-            color: #374151;
-
-            margin-bottom: 7px;
-
+            color: var(--primary);
+            font-variant-numeric: tabular-nums;
         }
 
-
-        .field input {
-
+        input[type="range"] {
             width: 100%;
-
-            padding: 13px;
-
-            border: 1px solid #d1d5db;
-
-            border-radius: 10px;
-
-            font-size: 16px;
-
-            outline: none;
-
+            accent-color: var(--primary);
+            cursor: pointer;
         }
-
-
-        .field input:focus {
-
-            border-color: #6366f1;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(
-                    99,
-                    102,
-                    241,
-                    .12
-                );
-
-        }
-
 
         .hint {
-
-            margin-top: 5px;
-
+            margin-top: 6px;
             font-size: 12px;
-
-            color: #9ca3af;
-
+            color: var(--faint);
         }
 
+        /* ---------- BUTTONS ---------- */
 
-        .start-button {
-
-            margin-top: 25px;
-
+        .button {
             width: 100%;
-
-            padding: 16px;
-
+            margin-top: 24px;
+            padding: 15px;
             border: none;
-
             border-radius: 12px;
-
-            background: #4f46e5;
-
-            color: white;
-
-            font-size: 16px;
-
-            font-weight: 800;
-
+            font: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
             cursor: pointer;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: background .15s, transform .1s;
         }
 
+        .button:active { transform: translateY(1px); }
 
-        .start-button:hover {
+        .button-primary { background: var(--primary); }
+        .button-primary:hover { background: var(--primary-hover); }
 
-            background: #4338ca;
-
-        }
-
-
-        .start-button:disabled {
-
-            opacity: .6;
-
+        .button-primary:disabled {
+            opacity: .55;
             cursor: not-allowed;
-
         }
 
-
-        .batch {
-
-            display: none;
-
-            margin-top: 30px;
-
+        .button-success {
+            margin-top: 0;
+            background: var(--success);
         }
 
+        .button-success:hover { background: var(--success-hover); }
 
-        .overall {
-
-            padding: 20px;
-
-            border-radius: 16px;
-
-            background: #f8fafc;
-
-            margin-bottom: 20px;
-
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
         }
 
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---------- PROGRESS ---------- */
+
+        .batch { display: none; }
 
         .overall-top {
-
             display: flex;
-
             justify-content: space-between;
-
-            margin-bottom: 10px;
-
-            font-weight: 700;
-
-            color: #374151;
-
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
         }
 
+        #overallPercent {
+            font-variant-numeric: tabular-nums;
+            color: var(--primary);
+        }
 
         .progress {
-
-            height: 12px;
-
-            background: #e5e7eb;
-
-            border-radius: 20px;
-
+            height: 8px;
+            background: var(--border);
+            border-radius: 99px;
             overflow: hidden;
-
         }
-
 
         .progress-bar {
-
             width: 0%;
-
             height: 100%;
-
-            background: #4f46e5;
-
+            border-radius: 99px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
             transition: width .3s;
-
         }
 
+        .jobs { margin-top: 16px; }
 
-        .jobs {
+        .job { flex-wrap: wrap; }
 
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 10px;
-
+        .job .progress {
+            flex-basis: 100%;
+            height: 5px;
         }
 
-
-        .job {
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 14px;
-
-            padding: 15px;
-
-        }
-
-
-        .job-top {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-
-        }
-
-
-        .job-name {
-
-            flex: 1;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            white-space: nowrap;
-
-        }
-
-
-        .job-status {
-
+        .status {
+            flex-shrink: 0;
             font-size: 12px;
-
-            font-weight: 700;
-
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 99px;
         }
 
+        .status.waiting { color: var(--muted); background: var(--surface); }
+        .status.processing { color: var(--primary); background: var(--primary-soft); }
+        .status.done { color: var(--success); background: var(--success-soft); }
+        .status.error { color: var(--danger); background: var(--danger-soft); }
 
-        .waiting {
-
-            color: #9ca3af;
-
+        .job-download {
+            flex-shrink: 0;
+            display: none;
+            color: var(--success);
         }
 
-
-        .processing {
-
-            color: #4f46e5;
-
+        .job-download:hover {
+            background: var(--success-soft);
+            color: var(--success);
         }
 
-
-        .done {
-
-            color: #059669;
-
-        }
-
-
-        .error-status {
-
-            color: #dc2626;
-
-        }
-
-
-        .job-progress {
-
-            margin-top: 10px;
-
-            height: 7px;
-
-            background: #e5e7eb;
-
-            border-radius: 20px;
-
-            overflow: hidden;
-
-        }
-
-
-        .job-progress-bar {
-
-            width: 0%;
-
-            height: 100%;
-
-            background: #6366f1;
-
-            transition: width .3s;
-
-        }
-
-
-        .job-info {
-
-            margin-top: 6px;
-
-            color: #9ca3af;
-
-            font-size: 12px;
-
-        }
-
+        /* ---------- RESULT ---------- */
 
         .success {
-
             display: none;
-
-            margin-top: 25px;
-
+            margin-top: 20px;
             padding: 20px;
-
             border-radius: 16px;
-
-            background: #ecfdf5;
-
-            border: 1px solid #a7f3d0;
-
+            background: var(--success-soft);
+            text-align: center;
         }
-
 
         .success-title {
-
-            font-size: 17px;
-
-            font-weight: 800;
-
-            color: #065f46;
-
-            margin-bottom: 12px;
-
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 14px;
         }
-
-
-        .download {
-
-            display: block;
-
-            text-align: center;
-
-            text-decoration: none;
-
-            padding: 14px;
-
-            border-radius: 11px;
-
-            background: #059669;
-
-            color: white;
-
-            font-weight: 800;
-
-        }
-
-
-        .download:hover {
-
-            background: #047857;
-
-        }
-
 
         .error-box {
-
             display: none;
-
-            margin-top: 20px;
-
-            padding: 15px;
-
+            margin-top: 16px;
+            padding: 14px 16px;
             border-radius: 12px;
-
-            background: #fef2f2;
-
-            color: #b91c1c;
-
-            border: 1px solid #fecaca;
-
+            font-size: 14px;
+            color: var(--danger);
+            background: var(--danger-soft);
         }
 
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--faint);
+        }
 
         @media (max-width: 600px) {
-
-            .card {
-
-                padding: 20px;
-
-            }
-
-            .settings {
-
-                grid-template-columns: 1fr;
-
-            }
-
-            h1 {
-
-                font-size: 23px;
-
-            }
-
+            body { padding: 28px 16px; }
+            .card { padding: 18px; }
+            .settings { grid-template-columns: 1fr; }
+            h1 { font-size: 23px; }
         }
 
     </style>
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-    <div class="card">
+    <div class="header">
 
-
-        <div class="header">
-
-            <div class="icon">
-                📱
-            </div>
-
-            <h1>
-                PDF Telefon Optimizer
-            </h1>
-
-            <div class="subtitle">
-                Bir nechta PDFni birdan optimallashtiring
-            </div>
-
+        <div class="logo">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
         </div>
 
+        <h1>PDF Telefon Optimizer</h1>
+
+        <p class="subtitle">
+            Uzun PDF sahifalarini telefonda o'qishga qulay bo'laklarga ajrating
+        </p>
+
+    </div>
+
+
+    <div class="card">
 
         <!-- UPLOAD -->
 
-        <label
-            class="upload"
-            for="fileInput"
-        >
+        <div class="section">
 
-            <div class="upload-icon">
-                📚
-            </div>
+            <label class="upload" for="fileInput" id="dropZone">
 
-            <div class="upload-title">
-                Bir nechta PDF tanlang
-            </div>
+                <div class="upload-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
 
-            <div class="upload-info">
-                Bir vaqtning o'zida bir nechta fayl tanlash mumkin
-            </div>
+                <div class="upload-title">
+                    PDFlarni shu yerga tashlang yoki <span>tanlang</span>
+                </div>
 
-        </label>
+                <div class="upload-info">
+                    Bir vaqtning o'zida bir nechta fayl tanlash mumkin
+                </div>
 
+            </label>
 
-        <input
-            id="fileInput"
-            type="file"
-            accept=".pdf,application/pdf"
-            multiple
-        >
+            <input id="fileInput" type="file" accept=".pdf,application/pdf" multiple>
 
 
-        <!-- FILE LIST -->
+            <!-- FILE LIST -->
 
-        <div
-            class="file-list"
-            id="fileList"
-        >
+            <div class="file-list" id="fileList">
 
-            <div class="file-list-title">
+                <div class="section-title">
+                    <span>Tanlangan fayllar (<span id="fileCount">0</span>)</span>
+                    <button class="clear-all" onclick="clearFiles()">Hammasini tozalash</button>
+                </div>
 
-                Tanlangan fayllar:
-
-                <span id="fileCount">
-                    0
-                </span>
+                <div id="files"></div>
 
             </div>
-
-            <div id="files"></div>
 
         </div>
 
 
         <!-- SETTINGS -->
 
-        <div class="settings">
+        <div class="section">
 
-            <div class="field">
+            <div class="section-title">Sozlamalar</div>
 
-                <label>
-                    Kesish balandligi
-                </label>
+            <div class="settings">
 
-                <input
-                    id="chunkHeight"
-                    type="number"
-                    value="1400"
-                    min="500"
-                    max="5000"
-                >
+                <div class="field">
 
-                <div class="hint">
-                    Redmi 9A uchun: 1200–1400 px
+                    <div class="field-top">
+                        <label for="chunkHeight">Kesish balandligi</label>
+                        <span class="field-value" id="chunkHeightValue">1400 px</span>
+                    </div>
+
+                    <input id="chunkHeight" type="range" value="1400" min="500" max="5000" step="100">
+
+                    <div class="hint">Redmi 9A uchun: 1200–1400 px</div>
+
                 </div>
 
-            </div>
 
+                <div class="field">
 
-            <div class="field">
+                    <div class="field-top">
+                        <label for="quality">JPEG sifati</label>
+                        <span class="field-value" id="qualityValue">80%</span>
+                    </div>
 
-                <label>
-                    JPEG sifati
-                </label>
+                    <input id="quality" type="range" value="80" min="40" max="95" step="5">
 
-                <input
-                    id="quality"
-                    type="number"
-                    value="80"
-                    min="40"
-                    max="95"
-                >
+                    <div class="hint">Tavsiya: 75–85%</div>
 
-                <div class="hint">
-                    Tavsiya: 75–85%
                 </div>
 
             </div>
@@ -812,94 +576,46 @@
 
         <!-- START -->
 
-        <button
-            class="start-button"
-            id="startButton"
-            onclick="startOptimization()"
-        >
-            🚀 HAMMASINI OPTIMALLASHTIRISH
-        </button>
+        <button class="button button-primary" id="startButton" onclick="startOptimization()"></button>
 
 
         <!-- BATCH -->
 
-        <div
-            class="batch"
-            id="batch"
-        >
+        <div class="section batch" id="batch">
 
-            <div class="overall">
-
-                <div class="overall-top">
-
-                    <span>
-                        Umumiy progress
-                    </span>
-
-                    <span
-                        id="overallPercent"
-                    >
-                        0%
-                    </span>
-
-                </div>
-
-
-                <div class="progress">
-
-                    <div
-                        class="progress-bar"
-                        id="overallBar"
-                    ></div>
-
-                </div>
-
+            <div class="overall-top">
+                <span>Umumiy progress</span>
+                <span id="overallPercent">0%</span>
             </div>
 
+            <div class="progress">
+                <div class="progress-bar" id="overallBar"></div>
+            </div>
 
-            <div
-                class="jobs"
-                id="jobs"
-            ></div>
+            <div class="jobs" id="jobs"></div>
 
         </div>
 
 
         <!-- SUCCESS -->
 
-        <div
-            class="success"
-            id="success"
-        >
+        <div class="success" id="success">
 
-            <div class="success-title">
+            <div class="success-title" id="successTitle"></div>
 
-                ✅ Barcha PDFlar tayyor!
-
-            </div>
-
-
-            <a
-                class="download"
-                id="downloadButton"
-                href="#"
-            >
-
-                📦 HAMMASINI ZIP QILIB YUKLAB OLISH
-
-            </a>
+            <a class="button button-success" id="downloadButton" href="#"></a>
 
         </div>
 
 
         <!-- ERROR -->
 
-        <div
-            class="error-box"
-            id="errorBox"
-        ></div>
+        <div class="error-box" id="errorBox"></div>
 
+    </div>
 
+    <div class="footer">
+        Fayllar faqat shu kompyuterda qayta ishlanadi
     </div>
 
 </div>
@@ -907,120 +623,101 @@
 
 <script>
 
+const ICON_DOWNLOAD = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+const ICON_CLOSE = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const START_LABEL = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Optimallashtirish`;
 
 let selectedFiles = [];
+let currentBatchId = null;
 
+const fileInput = document.getElementById("fileInput");
+const dropZone = document.getElementById("dropZone");
+const fileList = document.getElementById("fileList");
+const filesContainer = document.getElementById("files");
+const fileCount = document.getElementById("fileCount");
+const startButton = document.getElementById("startButton");
+const batch = document.getElementById("batch");
+const jobsContainer = document.getElementById("jobs");
+const success = document.getElementById("success");
+const successTitle = document.getElementById("successTitle");
+const downloadButton = document.getElementById("downloadButton");
+const errorBox = document.getElementById("errorBox");
+const overallBar = document.getElementById("overallBar");
+const overallPercent = document.getElementById("overallPercent");
+const chunkHeight = document.getElementById("chunkHeight");
+const quality = document.getElementById("quality");
 
-const fileInput =
-    document.getElementById(
-        "fileInput"
-    );
-
-
-const fileList =
-    document.getElementById(
-        "fileList"
-    );
-
-
-const filesContainer =
-    document.getElementById(
-        "files"
-    );
-
-
-const fileCount =
-    document.getElementById(
-        "fileCount"
-    );
-
-
-const startButton =
-    document.getElementById(
-        "startButton"
-    );
-
-
-const batch =
-    document.getElementById(
-        "batch"
-    );
-
-
-const jobsContainer =
-    document.getElementById(
-        "jobs"
-    );
-
-
-const success =
-    document.getElementById(
-        "success"
-    );
-
-
-const errorBox =
-    document.getElementById(
-        "errorBox"
-    );
-
-
-const overallBar =
-    document.getElementById(
-        "overallBar"
-    );
-
-
-const overallPercent =
-    document.getElementById(
-        "overallPercent"
-    );
+startButton.innerHTML = START_LABEL;
 
 
 /*
-    PDF tanlash
+    Slider qiymatlari
 */
 
-fileInput.addEventListener(
-    "change",
-    function () {
+chunkHeight.addEventListener("input", () => {
+    document.getElementById("chunkHeightValue").textContent = chunkHeight.value + " px";
+});
 
-        const newFiles =
-            Array.from(
-                this.files
-            );
+quality.addEventListener("input", () => {
+    document.getElementById("qualityValue").textContent = quality.value + "%";
+});
 
-        for (
-            const file of newFiles
-        ) {
 
-            const exists =
-                selectedFiles.some(
-                    existing =>
-                        existing.name ===
-                            file.name &&
-                        existing.size ===
-                            file.size
-                );
+/*
+    PDF tanlash / drag & drop
+*/
 
-            if (!exists) {
+function addFiles(newFiles) {
 
-                selectedFiles.push(
-                    file
-                );
+    // Oldingi natija ochiq bo'lsa, yangi fayl tanlanganda yashiriladi
+    if (!startButton.disabled) {
+        batch.style.display = "none";
+        success.style.display = "none";
+        errorBox.style.display = "none";
+    }
 
-            }
+    for (const file of newFiles) {
 
-        }
+        if (!file.name.toLowerCase().endsWith(".pdf")) continue;
 
-        renderFiles();
+        const exists = selectedFiles.some(
+            existing => existing.name === file.name && existing.size === file.size
+        );
 
-        // Inputni tozalash,
-        // yana PDF qo'shish mumkin
-        this.value = "";
+        if (!exists) selectedFiles.push(file);
 
     }
-);
+
+    renderFiles();
+
+}
+
+fileInput.addEventListener("change", function () {
+
+    addFiles(Array.from(this.files));
+
+    // Inputni tozalash, yana PDF qo'shish mumkin
+    this.value = "";
+
+});
+
+["dragenter", "dragover"].forEach(eventName => {
+    dropZone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropZone.classList.add("dragover");
+    });
+});
+
+["dragleave", "drop"].forEach(eventName => {
+    dropZone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropZone.classList.remove("dragover");
+    });
+});
+
+dropZone.addEventListener("drop", event => {
+    addFiles(Array.from(event.dataTransfer.files));
+});
 
 
 /*
@@ -1029,161 +726,70 @@ fileInput.addEventListener(
 
 function renderFiles() {
 
-    filesContainer.innerHTML =
-        "";
+    filesContainer.innerHTML = "";
+    fileCount.textContent = selectedFiles.length;
+    fileList.style.display = selectedFiles.length ? "block" : "none";
 
-    fileCount.textContent =
-        selectedFiles.length;
+    selectedFiles.forEach((file, index) => {
 
+        const item = document.createElement("div");
+        item.className = "file-item";
 
-    if (
-        selectedFiles.length === 0
-    ) {
+        item.innerHTML = `
+            <div class="file-badge">PDF</div>
+            <div class="file-info">
+                <div class="file-name">${escapeHtml(file.name)}</div>
+                <div class="file-meta">${formatSize(file.size)}</div>
+            </div>
+            <button class="icon-button" title="O'chirish" onclick="removeFile(${index})">${ICON_CLOSE}</button>
+        `;
 
-        fileList.style.display =
-            "none";
+        filesContainer.appendChild(item);
 
-        return;
-
-    }
-
-
-    fileList.style.display =
-        "block";
-
-
-    selectedFiles.forEach(
-        (file, index) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-            item.className =
-                "file-item";
-
-
-            const size =
-                formatSize(
-                    file.size
-                );
-
-
-            item.innerHTML = `
-
-                <div class="file-icon">
-                    📄
-                </div>
-
-                <div class="file-info">
-
-                    <div class="file-name">
-                        ${escapeHtml(file.name)}
-                    </div>
-
-                    <div class="file-size">
-                        ${size}
-                    </div>
-
-                </div>
-
-                <button
-                    class="remove-file"
-                    onclick="removeFile(${index})"
-                >
-                    ×
-                </button>
-
-            `;
-
-
-            filesContainer.appendChild(
-                item
-            );
-
-        }
-    );
+    });
 
 }
-
-
-/*
-    Fayl o'chirish
-*/
 
 function removeFile(index) {
-
-    selectedFiles.splice(
-        index,
-        1
-    );
-
+    selectedFiles.splice(index, 1);
     renderFiles();
+}
 
+function clearFiles() {
+    selectedFiles = [];
+    renderFiles();
 }
 
 
 /*
-    Hajm
+    Yordamchilar
 */
 
 function formatSize(bytes) {
 
-    if (
-        bytes <
-        1024 * 1024
-    ) {
-
-        return (
-            (bytes / 1024)
-            .toFixed(1)
-            + " KB"
-        );
-
+    if (bytes < 1024 * 1024) {
+        return (bytes / 1024).toFixed(1) + " KB";
     }
 
-
-    return (
-        (bytes / 1024 / 1024)
-        .toFixed(1)
-        + " MB"
-    );
+    return (bytes / 1024 / 1024).toFixed(1) + " MB";
 
 }
 
-
-/*
-    XSSdan himoya
-*/
-
+// XSSdan himoya
 function escapeHtml(text) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.textContent =
-        text;
-
+    const div = document.createElement("div");
+    div.textContent = text;
     return div.innerHTML;
-
 }
-
-
-/*
-    Error
-*/
 
 function showError(message) {
+    errorBox.textContent = message;
+    errorBox.style.display = "block";
+}
 
-    errorBox.textContent =
-        "❌ " + message;
-
-    errorBox.style.display =
-        "block";
-
+function resetButton() {
+    startButton.disabled = false;
+    startButton.innerHTML = START_LABEL;
 }
 
 
@@ -1193,187 +799,47 @@ function showError(message) {
 
 async function startOptimization() {
 
-    errorBox.style.display =
-        "none";
+    errorBox.style.display = "none";
+    success.style.display = "none";
 
-    success.style.display =
-        "none";
-
-
-    if (
-        selectedFiles.length === 0
-    ) {
-
-        showError(
-            "Avval kamida bitta PDF tanlang."
-        );
-
+    if (selectedFiles.length === 0) {
+        showError("Avval kamida bitta PDF tanlang.");
         return;
-
     }
 
+    const formData = new FormData();
 
-    const chunkHeight =
-        document
-            .getElementById(
-                "chunkHeight"
-            )
-            .value;
+    selectedFiles.forEach(file => formData.append("pdfs", file));
+    formData.append("chunk_h", chunkHeight.value);
+    formData.append("quality", quality.value);
 
+    startButton.disabled = true;
+    startButton.innerHTML = `<span class="spinner"></span> Ishlanmoqda...`;
 
-    const quality =
-        document
-            .getElementById(
-                "quality"
-            )
-            .value;
-
-
-    const formData =
-        new FormData();
-
-
-    selectedFiles.forEach(
-        file => {
-
-            formData.append(
-                "pdfs",
-                file
-            );
-
-        }
-    );
-
-
-    formData.append(
-        "chunk_h",
-        chunkHeight
-    );
-
-
-    formData.append(
-        "quality",
-        quality
-    );
-
-
-    startButton.disabled =
-        true;
-
-    startButton.textContent =
-        "⏳ ISHLANMOQDA...";
-
-
-    batch.style.display =
-        "block";
-
-
-    jobsContainer.innerHTML =
-        "";
-
-
-    selectedFiles.forEach(
-        (file, index) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-            item.className =
-                "job";
-
-            item.id =
-                "job-" + index;
-
-
-            item.innerHTML = `
-
-                <div class="job-top">
-
-                    <span>
-                        📄
-                    </span>
-
-                    <span class="job-name">
-                        ${escapeHtml(file.name)}
-                    </span>
-
-                    <span
-                        class="job-status waiting"
-                        id="status-${index}"
-                    >
-                        Kutmoqda
-                    </span>
-
-                </div>
-
-
-                <div class="job-progress">
-
-                    <div
-                        class="job-progress-bar"
-                        id="bar-${index}"
-                    ></div>
-
-                </div>
-
-
-                <div
-                    class="job-info"
-                    id="info-${index}"
-                >
-                    Navbatda...
-                </div>
-
-            `;
-
-
-            jobsContainer.appendChild(
-                item
-            );
-
-        }
-    );
-
+    overallBar.style.width = "0%";
+    overallPercent.textContent = "0%";
+    jobsContainer.innerHTML = "";
+    batch.style.display = "block";
 
     try {
 
-        const response =
-            await fetch(
-                "/optimize",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+        const response = await fetch("/optimize", {
+            method: "POST",
+            body: formData
+        });
 
-
-        const data =
-            await response.json();
-
+        const data = await response.json();
 
         if (!response.ok) {
-
-            throw new Error(
-                data.error ||
-                "Xatolik yuz berdi."
-            );
-
+            throw new Error(data.error || "Xatolik yuz berdi.");
         }
 
-
-        pollProgress(
-            data.batch_id
-        );
-
+        currentBatchId = data.batch_id;
+        pollProgress(currentBatchId);
 
     } catch (error) {
 
-        showError(
-            error.message
-        );
-
+        showError(error.message);
         resetButton();
 
     }
@@ -1385,63 +851,30 @@ async function startOptimization() {
     Progress tekshirish
 */
 
-function pollProgress(
-    batchId
-) {
+function pollProgress(batchId) {
 
-    const interval =
-        setInterval(
-            async () => {
+    const interval = setInterval(async () => {
 
-                try {
+        try {
 
-                    const response =
-                        await fetch(
-                            "/progress/" +
-                            batchId
-                        );
+            const response = await fetch("/progress/" + batchId);
+            const data = await response.json();
 
+            updateUI(batchId, data);
 
-                    const data =
-                        await response.json();
+            if (data.status === "done" || data.status === "error") {
+                clearInterval(interval);
+            }
 
+        } catch (error) {
 
-                    updateUI(
-                        data
-                    );
+            clearInterval(interval);
+            showError(error.message);
+            resetButton();
 
+        }
 
-                    if (
-                        data.status ===
-                            "done" ||
-                        data.status ===
-                            "error"
-                    ) {
-
-                        clearInterval(
-                            interval
-                        );
-
-                    }
-
-
-                } catch (error) {
-
-                    clearInterval(
-                        interval
-                    );
-
-                    showError(
-                        error.message
-                    );
-
-                    resetButton();
-
-                }
-
-            },
-            700
-        );
+    }, 700);
 
 }
 
@@ -1450,246 +883,118 @@ function pollProgress(
     UI yangilash
 */
 
-function updateUI(data) {
-
-    const overall =
-        data.overall_progress ||
-        0;
-
-
-    overallBar.style.width =
-        overall + "%";
-
-
-    overallPercent.textContent =
-        overall + "%";
-
-
-    const fileEntries =
-        Object.values(
-            data.files || {}
-        );
-
-
-    fileEntries.forEach(
-        (item, index) => {
-
-            const status =
-                document.getElementById(
-                    "status-" + index
-                );
-
-            const bar =
-                document.getElementById(
-                    "bar-" + index
-                );
-
-            const info =
-                document.getElementById(
-                    "info-" + index
-                );
-
-
-            if (!status)
-                return;
-
-
-            bar.style.width =
-                (
-                    item.progress || 0
-                ) + "%";
-
-
-            if (
-                item.status ===
-                "waiting"
-            ) {
-
-                status.textContent =
-                    "Kutmoqda";
-
-                status.className =
-                    "job-status waiting";
-
-                info.textContent =
-                    "Navbatda...";
-
-            }
-
-
-            if (
-                item.status ===
-                "processing"
-            ) {
-
-                status.textContent =
-                    "Ishlanmoqda";
-
-                status.className =
-                    "job-status processing";
-
-                info.textContent =
-                    item.current_page +
-                    " / " +
-                    item.total_pages +
-                    " sahifa";
-
-            }
-
-
-            if (
-                item.status ===
-                "done"
-            ) {
-
-                status.textContent =
-                    "✓ Tayyor";
-
-                status.className =
-                    "job-status done";
-
-                info.textContent =
-                    "Optimallashtirish tugadi";
-
-            }
-
-
-            if (
-                item.status ===
-                "error"
-            ) {
-
-                status.textContent =
-                    "Xato";
-
-                status.className =
-                    "job-status error-status";
-
-                info.textContent =
-                    item.error ||
-                    "Noma'lum xato";
-
-            }
-
-        }
-    );
-
-
-    if (
-        data.status ===
-        "done"
-    ) {
-
-        success.style.display =
-            "block";
-
-
-        document
-            .getElementById(
-                "downloadButton"
-            )
-            .href =
-                "/download/" +
-                getBatchIdFromUrlOrCurrent(
-                    data
-                );
-
-
-        // Batch IDni pollingdan olish
-        // uchun tugmaga keyin to'g'rilaymiz
-        if (window.currentBatchId) {
-
-            document
-                .getElementById(
-                    "downloadButton"
-                )
-                .href =
-                    "/download/" +
-                    window.currentBatchId;
-
-        }
-
-
-        resetButton();
-
-    }
-
-
-    if (
-        data.status ===
-        "error"
-    ) {
-
-        showError(
-            data.error ||
-            "Batchni qayta ishlashda xatolik."
-        );
-
-        resetButton();
-
-    }
-
-}
-
-
-/*
-    Batch ID
-*/
-
-function getBatchIdFromUrlOrCurrent(
-    data
-) {
-
-    return window.currentBatchId || "";
-
-}
-
-
-/*
-    pollProgressni batch ID bilan
-    global saqlash
-*/
-
-const originalPollProgress =
-    pollProgress;
-
-
-/*
-    Funksiyani qayta belgilaymiz
-*/
-
-pollProgress = function(
-    batchId
-) {
-
-    window.currentBatchId =
-        batchId;
-
-
-    originalPollProgress(
-        batchId
-    );
-
+const STATUS_LABELS = {
+    waiting: "Kutmoqda",
+    processing: "Ishlanmoqda",
+    done: "Tayyor",
+    error: "Xato"
 };
 
+function renderJob(batchId, item) {
 
-/*
-    Button reset
-*/
+    const job = document.createElement("div");
+    job.className = "job";
+    job.id = "job-" + item.id;
 
-function resetButton() {
+    job.innerHTML = `
+        <div class="file-badge">PDF</div>
+        <div class="file-info">
+            <div class="file-name">${escapeHtml(item.name)}</div>
+            <div class="file-meta" data-info></div>
+        </div>
+        <span class="status" data-status></span>
+        <a class="icon-button job-download" title="Yuklab olish"
+           href="/download/${batchId}/${item.id}" data-download>${ICON_DOWNLOAD}</a>
+        <div class="progress"><div class="progress-bar" data-bar></div></div>
+    `;
 
-    startButton.disabled =
-        false;
+    jobsContainer.appendChild(job);
 
-    startButton.textContent =
-        "🚀 HAMMASINI OPTIMALLASHTIRISH";
+    return job;
 
 }
 
+function updateUI(batchId, data) {
+
+    const overall = data.overall_progress || 0;
+
+    overallBar.style.width = overall + "%";
+    overallPercent.textContent = overall + "%";
+
+    const items = Object.values(data.files || {});
+
+    items.forEach(item => {
+
+        const job = document.getElementById("job-" + item.id) || renderJob(batchId, item);
+
+        const status = job.querySelector("[data-status]");
+        const info = job.querySelector("[data-info]");
+
+        job.querySelector("[data-bar]").style.width = (item.progress || 0) + "%";
+
+        status.textContent = STATUS_LABELS[item.status] || item.status;
+        status.className = "status " + item.status;
+
+        if (item.status === "waiting") {
+            info.textContent = "Navbatda...";
+        }
+
+        if (item.status === "processing") {
+            info.textContent = item.current_page + " / " + item.total_pages + " sahifa";
+        }
+
+        if (item.status === "done") {
+            info.textContent = item.total_pages + " sahifa · " + formatSize(item.output_size || 0);
+        }
+
+        if (item.status === "error") {
+            info.textContent = item.error || "Noma'lum xato";
+        }
+
+        // Har bir faylni alohida yuklab olish (bir nechta fayl bo'lsa)
+        job.querySelector("[data-download]").style.display =
+            item.status === "done" && data.status === "done" && items.length > 1 ? "grid" : "none";
+
+    });
+
+    if (data.status === "done") {
+
+        resetButton();
+
+        if (!data.download_type) {
+            showError("Hech bir PDF optimallashtirilmadi.");
+            return;
+        }
+
+        // Ishlangan fayllar ro'yxatdan olib tashlanadi,
+        // keyingi safar faqat yangi tanlanganlar yuboriladi
+        selectedFiles = [];
+        renderFiles();
+
+        const doneCount = items.filter(item => item.status === "done").length;
+
+        downloadButton.href = "/download/" + batchId;
+
+        if (data.download_type === "pdf") {
+            successTitle.textContent = "PDF tayyor!";
+            downloadButton.innerHTML = ICON_DOWNLOAD + " PDFni yuklab olish";
+        } else {
+            successTitle.textContent = doneCount + " ta PDF tayyor!";
+            downloadButton.innerHTML = ICON_DOWNLOAD + " Hammasini ZIP qilib yuklab olish";
+        }
+
+        success.style.display = "block";
+
+    }
+
+    if (data.status === "error") {
+        showError(data.error || "Batchni qayta ishlashda xatolik.");
+        resetButton();
+    }
+
+}
 
 </script>
-
 
 </body>
 

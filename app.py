@@ -287,42 +287,56 @@ def process_batch(
                     )
                 )
 
-            # ZIP yaratish
-            batch["zip_status"] = "processing"
+            # Tayyor fayllar
+            done_files = [
+                file_info
+                for file_info in files
+                if batch["files"][file_info["id"]]["status"] == "done"
+                and Path(file_info["output"]).exists()
+            ]
 
-            zip_path = (
-                OUTPUT_DIR
-                / f"pdf_optimizer_{batch_id}.zip"
-            )
+            batch["_outputs"] = {
+                file_info["id"]: file_info["output"]
+                for file_info in done_files
+            }
 
-            with zipfile.ZipFile(
-                zip_path,
-                "w",
-                zipfile.ZIP_DEFLATED
-            ) as zip_file:
+            if len(done_files) == 1:
 
-                for file_info in files:
+                # Bitta fayl bo'lsa ZIP qilinmaydi,
+                # PDFning o'zi yuklab olinadi
+                batch["_download"] = done_files[0]["output"]
+                batch["download_type"] = "pdf"
 
-                    item = batch["files"][
-                        file_info["id"]
-                    ]
+            elif len(done_files) > 1:
 
-                    if item["status"] != "done":
-                        continue
+                # ZIP yaratish
+                batch["zip_status"] = "processing"
 
-                    output_path = Path(
-                        file_info["output"]
-                    )
+                zip_path = (
+                    OUTPUT_DIR
+                    / f"pdf_optimizer_{batch_id}.zip"
+                )
 
-                    if output_path.exists():
+                with zipfile.ZipFile(
+                    zip_path,
+                    "w",
+                    zipfile.ZIP_DEFLATED
+                ) as zip_file:
+
+                    for file_info in done_files:
+
+                        output_path = Path(
+                            file_info["output"]
+                        )
 
                         zip_file.write(
                             output_path,
                             arcname=output_path.name
                         )
 
-            batch["zip"] = str(zip_path)
-            batch["zip_status"] = "done"
+                batch["_download"] = str(zip_path)
+                batch["download_type"] = "zip"
+                batch["zip_status"] = "done"
 
             batch["status"] = "done"
             batch["overall_progress"] = 100
@@ -439,7 +453,11 @@ def start_optimization():
         uuid.uuid4()
     )
 
+    batch_dir = OUTPUT_DIR / batch_id
+    batch_dir.mkdir(exist_ok=True)
+
     files = []
+    used_outputs = set()
 
     for file in valid_files:
 
@@ -453,7 +471,7 @@ def start_optimization():
 
         safe_name = (
             f"{file_id}_"
-            f"{file.filename}"
+            f"{Path(file.filename).name}"
         )
 
         input_path = (
@@ -461,9 +479,26 @@ def start_optimization():
             / safe_name
         )
 
+        # Bir xil nomli fayllar ustma-ust yozilmasin:
+        # name_telefon.pdf, name_telefon (2).pdf, ...
         output_path = (
-            OUTPUT_DIR
+            batch_dir
             / f"{original_name}_telefon.pdf"
+        )
+
+        counter = 2
+
+        while output_path in used_outputs:
+
+            output_path = (
+                batch_dir
+                / f"{original_name}_telefon ({counter}).pdf"
+            )
+
+            counter += 1
+
+        used_outputs.add(
+            output_path
         )
 
         file.save(
@@ -489,7 +524,13 @@ def start_optimization():
         "total_files":
             len(files),
 
-        "zip":
+        "_download":
+            None,
+
+        "_outputs":
+            {},
+
+        "download_type":
             None,
 
         "zip_status":
@@ -575,17 +616,22 @@ def get_progress(batch_id):
                 "Batch topilmadi."
         }), 404
 
-    return jsonify(batch)
+    # "_" bilan boshlanadigan ichki maydonlar (server yo'llari) yuborilmaydi
+    return jsonify({
+        key: value
+        for key, value in batch.items()
+        if not key.startswith("_")
+    })
 
 
 # --------------------------------------------------
-# DOWNLOAD ZIP
+# DOWNLOAD (bitta fayl -> PDF, bir nechta -> ZIP)
 # --------------------------------------------------
 
 @app.route(
     "/download/<batch_id>"
 )
-def download_zip(batch_id):
+def download_result(batch_id):
 
     batch = jobs.get(
         batch_id
@@ -602,22 +648,68 @@ def download_zip(batch_id):
             400
         )
 
-    zip_path = Path(
-        batch["zip"]
-    )
-
-    if not zip_path.exists():
+    if not batch["_download"]:
 
         return (
-            "ZIP fayl topilmadi",
+            "Yuklab olinadigan fayl yo'q",
             404
         )
 
+    download_path = Path(
+        batch["_download"]
+    )
+
+    if not download_path.exists():
+
+        return (
+            "Fayl topilmadi",
+            404
+        )
+
+    mimetype = (
+        "application/pdf"
+        if batch["download_type"] == "pdf"
+        else "application/zip"
+    )
+
     return send_file(
-        zip_path,
+        download_path,
         as_attachment=True,
-        download_name=zip_path.name,
-        mimetype="application/zip"
+        download_name=download_path.name,
+        mimetype=mimetype
+    )
+
+
+# --------------------------------------------------
+# DOWNLOAD ONE FILE
+# --------------------------------------------------
+
+@app.route(
+    "/download/<batch_id>/<file_id>"
+)
+def download_file(batch_id, file_id):
+
+    batch = jobs.get(
+        batch_id
+    )
+
+    if not batch:
+
+        return "Batch topilmadi", 404
+
+    output = batch["_outputs"].get(
+        file_id
+    )
+
+    if not output or not Path(output).exists():
+
+        return "Fayl topilmadi", 404
+
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name=Path(output).name,
+        mimetype="application/pdf"
     )
 
 
